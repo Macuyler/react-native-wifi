@@ -16,7 +16,6 @@ RCT_EXPORT_METHOD(connectToSSID:(NSString*)ssid
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
     if (@available(iOS 11.0, *)) {
-        NEHotspotConfigurationManager.shared.apply()
         NEHotspotConfiguration* configuration = [[NEHotspotConfiguration alloc] initWithSSID:ssid];
         configuration.joinOnce = true;
         
@@ -40,9 +39,8 @@ RCT_EXPORT_METHOD(connectToProtectedSSID:(NSString*)ssid
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
     if (@available(iOS 11.0, *)) {
-        NEHotspotConfigurationManager.shared.apply()
         NEHotspotConfiguration* configuration = [[NEHotspotConfiguration alloc] initWithSSID:ssid passphrase:passphrase isWEP:isWEP];
-        configuration.joinOnce = true;
+        configuration.joinOnce = false;
         
         [[NEHotspotConfigurationManager sharedManager] applyConfiguration:configuration completionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
@@ -62,9 +60,8 @@ RCT_EXPORT_METHOD(disconnectFromSSID:(NSString*)ssid
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
     if (@available(iOS 11.0, *)) {
-        NEHotspotConfigurationManager.shared.apply()
         [[NEHotspotConfigurationManager sharedManager] getConfiguredSSIDsWithCompletionHandler:^(NSArray<NSString *> *ssids) {
-            NSLog (@"List of SSIDs:%@", ssids);
+            NSLog (@"*****List of SSIDs: %@", ssids);
             if (ssids != nil && [ssids indexOfObject:ssid] != NSNotFound) {
                 [[NEHotspotConfigurationManager sharedManager] removeConfigurationForSSID:ssid];
             }
