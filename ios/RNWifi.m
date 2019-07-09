@@ -5,6 +5,10 @@
 //#import <UIKit/UIKit.h>
 
 @implementation WifiManager
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(connectToSSID:(NSString*)ssid
